@@ -21,11 +21,12 @@ class TaskTable extends DataTableComponent
             Column::make("Id", "id")
                 ->sortable(),
             Column::make("Description", "description")
-                ->sortable(),
+                ->sortable()->searchable(),
+
             Column::make("Created at", "created_at")
-                ->sortable(),
+                ->sortable()->collapseOnTablet(),
             Column::make("Updated at", "updated_at")
-                ->sortable(),
+                ->sortable()->collapseOnTablet(),
         ];
     }
 }

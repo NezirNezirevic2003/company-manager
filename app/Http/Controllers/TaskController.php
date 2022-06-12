@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+
+
 
 class TaskController extends Controller
 {
@@ -17,7 +22,7 @@ class TaskController extends Controller
     {
         $tasks = task::all();
 
-        // load the view and pass the sharks
+        // load the view and pass the tasks
         return View::make('tasks.index')
             ->with('tasks', $tasks);
     }
@@ -29,7 +34,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        // load the create form (app/views/sharks/create.blade.php)
+        // load the create form (app/views/tasks/create.blade.php)
         return View::make('tasks.create');
     }
 
@@ -41,7 +46,12 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'description' => 'required',
+        ]);
+
+        Task::create($request->all());
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -52,7 +62,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return view('tasks.show', compact('task'));
     }
 
     /**
