@@ -358,7 +358,7 @@
             }
         }
 
-        @media (prefers-color-scheme:dark) {
+        @media (prefers-color-scheme:light) {
             .dark\:bg-gray-800 {
                 --bg-opacity: 1;
                 background-color: #2d3748;
