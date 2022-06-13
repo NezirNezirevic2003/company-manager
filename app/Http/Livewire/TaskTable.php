@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Task;
+use App\Exports\TasksExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TaskTable extends DataTableComponent
 {
@@ -12,8 +14,28 @@ class TaskTable extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('id');
+        $this->setPrimaryKey('id')
+            ->setTableRowUrl(function ($row) {
+                return route('tasks.show', $row);
+            });
     }
+
+    public function bulkActions(): array
+    {
+        return [
+            'export' => 'Export in Excel',
+        ];
+    }
+
+    public function export()
+    {
+        $tasks = $this->getSelected();
+
+        $this->clearSelected();
+
+        return Excel::download(new TasksExport($tasks), 'tasks.xlsx');
+    }
+
 
     public function columns(): array
     {
